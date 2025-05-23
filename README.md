@@ -7,6 +7,10 @@ This project uses the Layoffs 2022 dataset from Kaggle to analyze global tech la
 
 ---
 
+***
+
+___
+
 ### 1) Database Setup
 
 ```sql
