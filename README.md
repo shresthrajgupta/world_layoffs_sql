@@ -231,9 +231,11 @@ ORDER BY dates ASC;
 ```
 
 ### Notes
+
 - The dataset has several inconsistencies that were resolved using manual data cleaning.
 - The rolling layoffs trend helps visualize the cumulative monthly impact.
 - You can easily extend this project by creating dashboards using tools like Power BI, Tableau, or integrating with Python libraries.
 
 ### Contact
+
 For questions or suggestions, feel free to open an issue or fork this repo and contribute.
