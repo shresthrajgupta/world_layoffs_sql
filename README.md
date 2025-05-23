@@ -5,7 +5,7 @@ This project uses the Layoffs 2022 dataset from Kaggle to analyze global tech la
 
 *Dataset*: https://www.kaggle.com/datasets/swaptr/layoffs-2022
 
-### Database Setup
+### 1) Database Setup
 ```sql
 CREATE DATABASE world_layoffs;
 USE world_layoffs;
@@ -15,7 +15,7 @@ USE world_layoffs;
 SELECT * FROM layoffs;
 ```
 
-### Data Cleaning & Transformation
+### 2) Data Cleaning & Transformation
 Step 1: Create Staging Table
 ```sql
 CREATE TABLE layoffs_staging LIKE layoffs;
@@ -141,4 +141,99 @@ ALTER TABLE layoffs_staging2
 MODIFY COLUMN funds_raised INT;
 ```
 
-### Exploratory Data Analysis (EDA)
+### 3) Exploratory Data Analysis (EDA)
+Total layoffs insights
+```sql
+SELECT MAX(total_laid_off) FROM layoffs_staging2;
+
+SELECT MAX(percentage_laid_off),  MIN(percentage_laid_off)
+FROM layoffs_staging2
+WHERE percentage_laid_off IS NOT NULL;
+```
+
+Top companies with highest layoffs
+```sql
+SELECT company, SUM(total_laid_off)
+FROM layoffs_staging2
+GROUP BY company
+ORDER BY 2 DESC
+LIMIT 10;
+```
+
+Top affected locations and countries
+```sql
+SELECT location, SUM(total_laid_off)
+FROM layoffs_staging2
+GROUP BY location
+ORDER BY 2 DESC
+LIMIT 10;
+
+SELECT country, SUM(total_laid_off)
+FROM layoffs_staging2
+GROUP BY country
+ORDER BY 2 DESC;
+```
+
+Year-wise trend
+```sql
+SELECT YEAR(date), SUM(total_laid_off)
+FROM layoffs_staging2
+GROUP BY YEAR(date)
+ORDER BY 1 ASC;
+```
+
+Industry and stage impact
+```sql
+SELECT industry, SUM(total_laid_off)
+FROM layoffs_staging2
+GROUP BY industry
+ORDER BY 2 DESC;
+
+
+SELECT stage, SUM(total_laid_off)
+FROM layoffs_staging2
+GROUP BY stage
+ORDER BY 2 DESC;
+```
+
+Top 3 companies with most layoffs by year
+```sql
+WITH Company_Year AS 
+(
+  SELECT company, YEAR(date) AS years, SUM(total_laid_off) AS total_laid_off
+  FROM layoffs_staging2
+  GROUP BY company, YEAR(date)
+), 
+Company_Year_Rank AS (
+  SELECT company, years, total_laid_off, DENSE_RANK() OVER (PARTITION BY years ORDER BY total_laid_off DESC) AS ranking
+  FROM Company_Year
+)
+
+SELECT company, years, total_laid_off, ranking
+FROM Company_Year_Rank
+WHERE ranking <= 3
+AND years IS NOT NULL
+ORDER BY years ASC, total_laid_off DESC;
+```
+
+Monthly rolling layoffs trend
+```sql
+WITH DATE_CTE AS 
+(
+  SELECT SUBSTRING(date,1,7) AS dates, SUM(total_laid_off) AS total_laid_off
+  FROM layoffs_staging2
+  GROUP BY dates
+  ORDER BY dates ASC
+)
+SELECT dates, SUM(total_laid_off) OVER (ORDER BY dates ASC) AS rolling_total_layoffs
+FROM DATE_CTE
+ORDER BY dates ASC;
+```
+
+### Notes
+- The dataset has several inconsistencies that were resolved using manual data cleaning.
+- The rolling layoffs trend helps visualize the cumulative monthly impact.
+- You can easily extend this project by creating dashboards using tools like Power BI, Tableau, or integrating with Python libraries.
+
+### Contact
+For questions or suggestions, feel free to open an issue or fork this repo and contribute.
