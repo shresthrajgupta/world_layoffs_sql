@@ -5,6 +5,8 @@ This project uses the Layoffs 2022 dataset from Kaggle to analyze global tech la
 
 *Dataset*: https://www.kaggle.com/datasets/swaptr/layoffs-2022
 
+---
+
 ### 1) Database Setup
 
 ```sql
