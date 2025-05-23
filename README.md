@@ -5,11 +5,7 @@ This project uses the Layoffs 2022 dataset from Kaggle to analyze global tech la
 
 *Dataset*: https://www.kaggle.com/datasets/swaptr/layoffs-2022
 
----
-
 ***
-
-___
 
 ### 1) Database Setup
 
@@ -21,6 +17,8 @@ USE world_layoffs;
 
 SELECT * FROM layoffs;
 ```
+
+***
 
 ### 2) Data Cleaning & Transformation
 Step 1: Create Staging Table
@@ -61,6 +59,8 @@ SELECT * FROM layoffs_staging2;
 DELETE FROM layoffs_staging2
 WHERE row_num > 1;
 ```
+
+***
 
 Step 3: Standardize & Clean Data
 Trim and normalize company names
@@ -237,11 +237,15 @@ FROM DATE_CTE
 ORDER BY dates ASC;
 ```
 
+***
+
 ### Notes
 
 - The dataset has several inconsistencies that were resolved using manual data cleaning.
 - The rolling layoffs trend helps visualize the cumulative monthly impact.
 - You can easily extend this project by creating dashboards using tools like Power BI, Tableau, or integrating with Python libraries.
+
+***
 
 ### Contact
 
