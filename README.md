@@ -60,8 +60,6 @@ DELETE FROM layoffs_staging2
 WHERE row_num > 1;
 ```
 
-***
-
 Step 3: Standardize & Clean Data
 Trim and normalize company names
 ```sql
@@ -147,6 +145,8 @@ WHERE funds_raised = '';
 ALTER TABLE layoffs_staging2
 MODIFY COLUMN funds_raised INT;
 ```
+
+***
 
 ### 3) Exploratory Data Analysis (EDA)
 Total layoffs insights
@@ -240,7 +240,6 @@ ORDER BY dates ASC;
 ***
 
 ### Notes
-
 - The dataset has several inconsistencies that were resolved using manual data cleaning.
 - The rolling layoffs trend helps visualize the cumulative monthly impact.
 - You can easily extend this project by creating dashboards using tools like Power BI, Tableau, or integrating with Python libraries.
@@ -248,5 +247,4 @@ ORDER BY dates ASC;
 ***
 
 ### Contact
-
 For questions or suggestions, feel free to open an issue or fork this repo and contribute.
